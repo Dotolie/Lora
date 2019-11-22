@@ -12,7 +12,7 @@
 //  MVTech must not be liable for any loss or damage arising from its use.
 //
 //  Module      :
-//  File           : stdafx.h
+//  File        : stdafx.h
 //  Description :
 //  Author       : ywkim@mvtech.or.kr
 //  Export       :
@@ -40,7 +40,14 @@
 #define 	EXEC_S(c,x)		&c::On_##x
 #define 	EXEC(c,x)		&c::On_##x
 
+enum {
+	TASK_ID_NULL = 0,
+	TASK_ID_MGR = 1,
+	TASK_ID_LORA,
 
+	
+	TASK_ID_MAX,
+};
 //int MsgProc(int hdl, int msg, int wparam, int lparam);
 
 

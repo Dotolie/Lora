@@ -29,6 +29,16 @@
 
 #define MAX_Q_SIZE	512
 
+enum {
+	MSG_CREATE 		= 0x1000,
+	MSG_CLOSE		= 0x1100,	
+	MSG_TIMER		= 0x2000,
+	MSG_EVENT	 	= 0x4000,
+	MSG_QUIT		= 0x9900,
+	
+	MSG_END			= 0xf000,
+};
+
 
 
 typedef struct Msg_t

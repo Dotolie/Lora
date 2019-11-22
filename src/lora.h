@@ -12,7 +12,7 @@
 //  MVTech must not be liable for any loss or damage arising from its use.
 //
 //  Module      :
-//  File           : rs232.h
+//  File        : lora.h
 //  Description :
 //  Author       : ywkim@mvtech.or.kr
 //  Export       :
@@ -24,22 +24,52 @@
 #ifndef __LORA_H__
 #define __LORA_H__
 
-
-#include "runnable.h"
+#include <queue>
+#include "base.h"
+#include "object.h"
+#include "rs232.h"
+#include "httpclient.h"
 #include "thread.h"
 
+typedef union _stPacket {
+	struct _Urup{
+		unsigned int nRSd;
+		unsigned int nIA;
+		unsigned int nRSu;
+		unsigned int nSeq;
+		unsigned int nCO2;
+		unsigned int nRH;
+		unsigned int nTemp;
+		unsigned int nPm1P0;
+		unsigned int nPm2P5;
+		unsigned int nPm4P0;
+		unsigned int nPm10P0;
+		unsigned short sBat;
+		unsigned int nTime;
+		char szDateTime[16];
+		} Urup;
+		
+} stPacket;
 
-
-class CLora: public Runnable
+class CLora: public CObject, CBase
 {
+public:
+	CRs232 *m_pRs232;
+	Thread *m_pComm;
+	stPacket m_stPkt;
+	std::queue<stPacket> m_qPkt;
+
+	CHttpClient *m_pHttpClient;
+	Thread		*m_pClientThread;
 	
 public:
 	CLora();
-	virtual ~CLora();
+	~CLora();
 	
-
-	virtual void Run();
-	virtual void Stop();
+	virtual int On_MSG_TIMER( int, int );
+	virtual int On_MSG_EVENT( int, int );
+	
+	stPacket parsePacket(char*);
 	
 };
 

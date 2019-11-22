@@ -36,7 +36,8 @@ public:
 
 	virtual int On_MSG_CLOSE( int, int ) {};
 	virtual int On_MSG_CREATE( int, int ) {};
-	virtual int On_MSG_DISCONNECT( int, int ) {};
+	virtual int On_MSG_TIMER( int, int ) {};
+	virtual int On_MSG_EVENT( int, int ) {};
 	virtual int On_MSG_QUIT( int, int ) {};
 
 }; 

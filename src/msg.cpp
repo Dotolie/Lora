@@ -26,70 +26,19 @@
 #include <unistd.h>
 
 #include "msg.h"
-#include "message.h"
 
 #define DEBUG
 #include "debug.h"
 
 
-CMessageQ gMsgQ;
 
-
-int PeekMessage(MSG& msg, int a, int b, int c)
-{
-	while(1) {
-		if( !gMsgQ.IsEmpty() ) {
-			gMsgQ.pop( msg);
-
-//			DBG("[%s:%s] gMsgQ msg=0x%x \r\n", __FILE__,__func__, msg.message );
-			
-//			if( msg.message == MSG_END )
-//				return 0;
-
-			break;
-			}
-		else {
-			usleep(1000);
-//			DBG("[%s:%s] gMsgQ empty \r\n", __FILE__,__func__);
-			}
-		}
-
-	return 1;
-}
-
-int SendMessage(CObject* hdl, int message, int wparam, int lparam)
-{
-	MSG msg;
-
-	msg.message = message;
-	msg.wparam = wparam;
-	msg.lparam = lparam;
-	msg.hdl = hdl;
-	
-//	DBG("[%s:%s] msg=0x%x, w=0x%x, l=0x%x \r\n", __FILE__,__func__, message, wparam, lparam);		
-	
-	if( !gMsgQ.IsFull() ) {
-		gMsgQ.push(msg);
-		return 1;
-		}
-	
-	return 0;
-}
-
-
-CMessageQ::CMessageQ()
+CMessageQ::CMessageQ() : m_count(0), m_in(0), m_out(0)
 {
 	DBG("[%s:%s] create\r\n", __FILE__, __func__ );
 
 	SetName("CMessageQ");
 	
-	m_count = 0;
-	m_in = 0;
-	m_out = 0;
-	if( 0 != pthread_mutex_init( &m_Mutex, NULL ) ){
-		;
-	}
-	
+	pthread_mutex_init( &m_Mutex, NULL );	
 }
 CMessageQ::~CMessageQ()
 {

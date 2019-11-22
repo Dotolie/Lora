@@ -11,15 +11,17 @@ ADD_DEFINITIONS(-Wall )
 include_directories(${CMAKE_SOURCE_DIR}/src)
 
 file(GLOB SRCS
-        src/msg.cpp
-        src/task.cpp
-        src/lora.cpp
+	src/httpclient.cpp
+	src/lora.cpp
+	src/timerMgr.cpp
+        src/taskMgr.cpp
         src/rs232.cpp
         src/thread.cpp
-        src/server.cpp
+        src/msg.cpp
+        src/main.cpp
 )
 
 add_executable(${PROJECT_NAME} ${SRCS})
-TARGET_LINK_LIBRARIES(${PROJECT_NAME} pthread)
+TARGET_LINK_LIBRARIES(${PROJECT_NAME} pthread rt curl)
 
 install(TARGETS ${PROJECT_NAME} DESTINATION ${BINDIR})

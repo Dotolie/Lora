@@ -34,6 +34,7 @@
 BEGIN_MESSAGE_MAP(CWork)
 	{ MSG_CREATE,			EXEC(CWork, MSG_CREATE)			},
 	{ MSG_CLOSE,			EXEC(CWork, MSG_CLOSE)			},	
+	{ MSG_TIMER,			EXEC(CWork, MSG_TIMER)			},	
 	{ MSG_DISCONNECT,		EXEC(CWork, MSG_DISCONNECT)		},	
 	{ MSG_QUIT,				EXEC(CWork, MSG_QUIT)			},
 END_MESSAGE_MAP()
@@ -62,7 +63,13 @@ int CWork::On_MSG_CLOSE( int wparam, int lparam )
 	
 	return 0;
 }
+int CWork::On_MSG_TIMER( int wparam, int lparam )
+{
+	DBG("\033[7;33m[%s:%s]\033[0m w=%d, l=%d\r\n", __FILE__,__func__, wparam, lparam);
 
+	
+	return 0;
+}
 int CWork::On_MSG_DISCONNECT( int wparam, int lparam )
 {
 	
